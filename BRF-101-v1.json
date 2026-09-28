@@ -1,0 +1,62 @@
+{
+    "schema_version": "1.1",
+    "source": {
+        "system": "OPPORTUNITY",
+        "brief_id": "BRF-101",
+        "brief_version": 1
+    },
+    "brief": {
+        "brief_date": "2026-08-17",
+        "client": {
+            "client_id": "AGZ9",
+            "name": "Banco LAFISE",
+            "industry_code": "Servicios Financieros",
+            "primary_contact": {
+                "name": "Fernando Morales",
+                "job_title": "Ejecutivo de Venta",
+                "email": "fernando.morales@go.com.hn"
+            }
+        },
+        "campaign": {
+            "title": "CAMPA\u00D1A DE AHORRO",
+            "objective": "Campa\u00F1a de ahorro alcance",
+            "market_codes": [
+                "HN"
+            ],
+            "target_audience": {
+                "description": "Medio para arriba",
+                "age_range": {
+                    "minimum": 18,
+                    "maximum": 55
+                },
+                "gender_codes": [
+                    "ALL"
+                ],
+                "interest_description": "Medio para arriba"
+            },
+            "previous_campaigns": {},
+            "budget": {
+                "currency": "HNL",
+                "total_amount_minor": 10000000,
+                "allocation": {
+                    "type": "MONTHLY",
+                    "periods": 2,
+                    "amount_per_period_minor": 5000000
+                }
+            },
+            "execution": {
+                "start_date": "2026-08-18",
+                "end_date": "2026-09-18"
+            },
+            "service_codes": [],
+            "segment_code": "nivel socioecon\u00F3mico de 18 en adelante, para honduras"
+        }
+    },
+    "requested_outputs": {
+        "formats": [
+            "PPTX"
+        ],
+        "include_preview_pdf": true,
+        "language": "es-HN"
+    }
+}

@@ -1,0 +1,71 @@
+{
+    "schema_version": "1.1",
+    "source": {
+        "system": "OPPORTUNITY",
+        "brief_id": "BRF-83",
+        "brief_version": 1
+    },
+    "brief": {
+        "brief_date": "2026-08-12",
+        "client": {
+            "client_id": "AG3N",
+            "name": "Tigo Honduras",
+            "industry_code": "Telecomunicaciones",
+            "primary_contact": {
+                "name": "Ana Argueta",
+                "job_title": "Ejecutivo de Venta",
+                "email": "ana.argueta@go.com.hn"
+            }
+        },
+        "campaign": {
+            "title": "Me ayudas con una propuesta Tigo",
+            "objective": "Campa\u00F1a de aniversario 30 a\u00F1os",
+            "market_codes": [
+                "HN"
+            ],
+            "target_audience": {
+                "description": "Hombres  y mujeres interesaados en telecomunicaciones, futbol, smartphone, diversion, tecnologia",
+                "age_range": {
+                    "minimum": 15,
+                    "maximum": 55
+                },
+                "gender_codes": [
+                    "ALL"
+                ],
+                "interest_description": "Hombres  y mujeres interesaados en telecomunicaciones, futbol, smartphone, diversion, tecnologia"
+            },
+            "previous_campaigns": {},
+            "budget": {
+                "currency": "HNL",
+                "total_amount_minor": 5000000,
+                "allocation": {
+                    "type": "MONTHLY",
+                    "periods": 2,
+                    "amount_per_period_minor": 2500000
+                }
+            },
+            "execution": {
+                "start_date": "2026-08-30",
+                "end_date": "2026-09-15"
+            },
+            "service_codes": [
+                "BANNER SEGMENTADOS MIDRI",
+                "BANNERS TRADICIONALES EN HN",
+                "DIEZ.HN",
+                "ELHERALDO.HN",
+                "EMAIL MARKETING",
+                "PRESENCIA FIJA DIEZ",
+                "PRESENCIA FIJA EH",
+                "PRESENCIA FIJA LP"
+            ],
+            "segment_code": "Hombres y mujeres de 15 a 55 a\u00F1os, todos los niveles socioeconomicos, para honduras"
+        }
+    },
+    "requested_outputs": {
+        "formats": [
+            "PPTX"
+        ],
+        "include_preview_pdf": true,
+        "language": "es-HN"
+    }
+}
