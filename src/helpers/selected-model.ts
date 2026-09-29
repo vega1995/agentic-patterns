@@ -33,7 +33,7 @@ import { openai } from '@ai-sdk/openai';
 // export const model = anthropic('claude-haiku-4-5');
 
 // OpenAI:
- export const model = openai('gpt-5-mini');
+ export const model = openai('gpt-6-luna');
 //export const model = openai('gpt-3.5-turbo-0125');
 // Gemini:
 // export const model = google('gemini-2.5-flash');
