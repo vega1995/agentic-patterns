@@ -19,7 +19,7 @@ import { openai } from '@ai-sdk/openai';
 // Gemini:
 // npm i @ai-sdk/google
 //import { google } from '@ai-sdk/google';
-
+//export const model= google('gemini-3.5-flash');
 // Ollama:
 // npm i ollama-ai-provider-v2
 // A diferencia de los anteriores, este es un proveedor comunitario.
