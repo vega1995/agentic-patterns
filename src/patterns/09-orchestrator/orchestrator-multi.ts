@@ -150,9 +150,21 @@ async function runWorker(
   task: string,
   tracer: ReturnType<typeof createTracer>
 ) {
-  // TODO: implementar el worker
+  const config = DEPARTMENTS[department];
 
-  return '';
+  const { text } = await generateText({
+    model,
+    instructions: config.instructions,
+    tools: config.tools,
+    prompt:task,
+    stopWhen: stepCountIs(3),
+    onStepEnd: tracer.onStepFinish,
+  });
+  
+
+
+
+  return text;
 }
 
 // ---------------------------------------------------------------------------
@@ -166,26 +178,44 @@ async function withRouter() {
   console.log(` ☎️ Llamada: ${COMPOUND_CALL}`.blue);
 
   // 1. Clasificar (una sola vez)
-  // TODO: implementar la clasificación
+  const { output: decision } = await generateText({
+    model,
+    prompt: COMPOUND_CALL,
+    output: Output.object({
+      schema: z.object({
+        department: z.enum(DEPARTMENT_NAMES),
+        reason: z.string().describe('Breve explicación de por qué se eligió este departamento'),
+      }),
+    }),
+    instructions:
+      'Eres un centralista. Transfiere la llamada a un único departamento ' +
+      DEPARTMENT_LIST ,
+    stopWhen: stepCountIs(1),
+    onStepEnd: tracer.onStepFinish,
+  });
 
-  // console.log(
-  //   `\n     Centralita → ${decision.department} · ${decision.reason}`.purple,
-  // );
+    console.log(
+      `\n     Centralita → ${decision.department} · ${decision.reason}`.purple,
+    );
 
   // 2. Transferir. La centralita ya no participa.
-  // TODO: implementar la transferencia
+  const answer = await runWorker(decision.department, COMPOUND_CALL, tracer);
 
-  // const accuracy = printAudit(auditAnswer(answer));
+  console.log(
+    `\n     ${decision.department} → ${answer}`.green,
+  );
 
-  // console.log(
-  //   (
-  //     '\n  ⚠️  El router transfirió a UN departamento con UNA tool.\n' +
-  //     '      Las otras dos partes de la llamada se perdieron por construcción:\n' +
-  //     '      nadie las vio, y el router ya no está para darse cuenta.'
-  //   ).yellow,
-  // );
+  const accuracy = printAudit(auditAnswer(answer));
 
-  // return { ...tracer.summary(), accuracy };
+  console.log(
+    (
+      '\n  ⚠️  El router transfirió a UN departamento con UNA tool.\n' +
+      '      Las otras dos partes de la llamada se perdieron por construcción:\n' +
+      '      nadie las vio, y el router ya no está para darse cuenta.'
+    ).yellow,
+  );
+
+  return { ...tracer.summary(), accuracy };
 }
 
 // ---------------------------------------------------------------------------
@@ -200,8 +230,23 @@ function delegateTo(
   department: Department,
   tracer: ReturnType<typeof createTracer>
 ) {
-  // TODO: implementar la delegación
-  return '';
+  const config = DEPARTMENTS[department];
+
+  return tool({
+    description: `Delega una tarea al departamento de → ${department}:` + config.description,
+    inputSchema: 
+z.object({ task: z
+  .string()
+  .describe('Instruccion concreta para el departamento. En una frase."') }),
+  execute: async ({ task }) => {
+      console.log(`\n     Orquestador → ${department} · ${task}`.purple);
+      const result = await runWorker(department, task, tracer);
+      console.log(`\n     ${department} → ${result}`.green);
+      return { department, result };
+    }
+  
+});
+
 }
 
 async function withOrchestrator() {
@@ -210,8 +255,27 @@ async function withOrchestrator() {
 
   console.log(` ☎️ Llamada: ${COMPOUND_CALL}`.blue);
 
-  // TODO: implementar orquestador con los workers
-  const text = 'XXX';
+  
+  const { text } = await generateText({
+    model,
+    instructions:
+      'Eres el supervisor de la centralita de DevTalles. No atiendes al ' +
+      'cliente directamente: delega cada parte de la llamada al departamento ' +
+      'correspondiente con tus herramientas. Puedes delegar a varios. ' +
+      'Cuando todo esté resuelto, redacta UNA sola respuesta al cliente ' +
+      'integrando los resultados y conservando los identificadores exactos ' +
+      '(facturas, tickets, catálogos). Responde en español, máximo 100 palabras.',
+      tools: {
+        delegateToVentas: delegateTo('ventas', tracer),
+        delegateToSoporte: delegateTo('soporte', tracer),
+        delegateToFacturacion: delegateTo('facturacion', tracer),
+      },
+    prompt: COMPOUND_CALL,
+    stopWhen: stepCountIs(3),
+    onStepEnd: tracer.onStepFinish,
+  });
+
+//  const text = 'XXX';
 
   console.log('\n Respuesta final al cliente:'.blue);
   console.log(`     ${text.trim()}`.green);
@@ -227,13 +291,13 @@ async function withOrchestrator() {
 // ---------------------------------------------------------------------------
 
 export async function orchestratorWorkersMain() {
-  const a = await withRouter();
-  // const b = await withOrchestrator();
+//  const a = await withRouter();
+   const b = await withOrchestrator();
 
   console.log('\n═══ COMPARATIVA ═══\n'.blue);
   console.table({
-    Router: a,
-    // Orquestador: b,
+    //Router: a,
+     Orquestador: b,
   });
 
   console.log(
